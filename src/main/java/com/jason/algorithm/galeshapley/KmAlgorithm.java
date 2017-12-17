@@ -7,12 +7,39 @@ package com.jason.algorithm.galeshapley;
  */
 public class KmAlgorithm {
     static final int UNIT_COUNT = 5;
+    /**
+     * Xi与Yj对应的权重值
+     */
     static int[][] edge = new int[UNIT_COUNT][UNIT_COUNT];
+
+    /**
+     * 二分图的相等子图, 即符合当前权重的定点与边的关系（a[i] + b[j] = edge[i][j]）
+     */
     static boolean[][] subMap = new boolean[UNIT_COUNT][UNIT_COUNT];
+
+    /**
+     * Xi 是否在当前搜索的增广路径上
+     */
     static boolean[] xOnPath = new boolean[UNIT_COUNT];
+
+    /**
+     * Yj 是否在当前搜索的增广路径上
+     */
     static boolean[] yOnPath = new boolean[UNIT_COUNT];
+
+    /**
+     * 已找到的增广路径（i->y, path[i]->x）
+     */
     static int[] path = new int[UNIT_COUNT];
+
+    /**
+     * 最大匹配次数
+     */
     static int maxMatch = 0;
+
+    /**
+     * 用a[]和b[]的和表示当前的最大权重值
+     */
     static int[] a = new int[UNIT_COUNT];
     static int[] b = new int[UNIT_COUNT];
 
@@ -56,10 +83,6 @@ public class KmAlgorithm {
             }
         }
 
-
-
-
-
         while (true) {
             resetPath();
 
@@ -68,8 +91,8 @@ public class KmAlgorithm {
 
             //3. find augment path
             for (int i = 0; i < UNIT_COUNT; i++) {
-                xOnPath = new boolean[UNIT_COUNT];
-                yOnPath = new boolean[UNIT_COUNT];
+                clearOnPathSign();
+
                 if (!findAugmentPath(i)){
                     break;
                 }
@@ -125,6 +148,11 @@ public class KmAlgorithm {
                 subMap[i][j] = a[i] + b[j] == edge[i][j];
             }
         }
+    }
+
+    public static void clearOnPathSign(){
+        xOnPath = new boolean[UNIT_COUNT];
+        yOnPath = new boolean[UNIT_COUNT];
     }
 
     public static boolean findAugmentPath(int xi){

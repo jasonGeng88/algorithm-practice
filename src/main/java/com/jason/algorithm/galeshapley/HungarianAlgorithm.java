@@ -7,11 +7,26 @@ package com.jason.algorithm.galeshapley;
  * Created by jason-geng on 12/16/17.
  */
 public class HungarianAlgorithm {
-
     final static int UNIT_COUNT = 5;
+
+    /**
+     * 顶点与边的关系
+     */
     static int[][] edge = new int[UNIT_COUNT][UNIT_COUNT];
+
+    /**
+     * 已找到的增广路径（i->y, path[i]->x）
+     */
     static int[] path = new int[UNIT_COUNT];
+
+    /**
+     * Yj 是否在当前搜索的增广路径上
+     */
     static boolean[] onPath = new boolean[UNIT_COUNT];
+
+    /**
+     * 最大匹配次数
+     */
     static int maxMatch;
 
     static  {
@@ -34,18 +49,22 @@ public class HungarianAlgorithm {
 
     public static void main(String[] args) {
         for (int xi = 0; xi < UNIT_COUNT; xi++) {
+            clearOnPathSign();
 
             if (findAugmentPath(xi)) {
                 maxMatch++;
             }
-            onPath = new boolean[5];
         }
 
         printMatch();
     }
 
+    public static void clearOnPathSign(){
+        onPath = new boolean[UNIT_COUNT];
+    }
+
     public static boolean findAugmentPath(int xi) {
-        for (int yi = 0; yi < 5; yi++) {
+        for (int yi = 0; yi < UNIT_COUNT; yi++) {
 
             if (edge[xi][yi] == 1 && !onPath[yi]) {
                 onPath[yi] = true;
